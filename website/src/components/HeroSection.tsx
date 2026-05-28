@@ -50,30 +50,6 @@ export default function HeroSection() {
         transition={{ duration: 0.5, ease: 'easeInOut' }}
       />
 
-      {/* Hero copy — bottom center */}
-      <motion.div
-        initial={{ opacity: 0, y: 28 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute bottom-12 left-0 right-0 flex flex-col items-center z-30 pointer-events-none"
-      >
-        <p className="text-[10px] tracking-[0.35em] text-gray-400 uppercase mb-3">
-          {siteConfig.hero.subtitle}
-        </p>
-        <h1 className="text-3xl md:text-5xl font-light tracking-[0.06em] text-gray-800 text-center px-6">
-          {siteConfig.hero.title}
-        </h1>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 2.4, ease: 'easeInOut' }}
-          className="mt-8 opacity-30"
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1a1a1a" strokeWidth="1.2">
-            <polyline points="4,7 10,13 16,7" />
-          </svg>
-        </motion.div>
-      </motion.div>
-
       {/* Train hover popup */}
       <AnimatePresence>
         {hoveredTrain && (

@@ -98,32 +98,6 @@ export default function ElectricTrain({ isHovered }: Props) {
         </group>
       ))}
 
-      {/* === 4 PASSENGER CARS === */}
-      {[0, 1, 2, 3].map((n) => (
-        <group key={n} position={[0, 0, -(0.5 + n * 0.32)]}>
-          <mesh position={[0, 0.13, 0]}>
-            <boxGeometry args={[0.23, 0.22, 0.27]} />
-            <meshStandardMaterial color={NAVY} roughness={0.65} metalness={0.3} />
-          </mesh>
-          {/* Windows row */}
-          {[-0.08, 0, 0.08].map((z2, j) => (
-            <mesh key={j} position={[0.116, 0.14, z2]}>
-              <boxGeometry args={[0.005, 0.06, 0.06]} />
-              <meshStandardMaterial color={GLASS} roughness={0.05} metalness={0.4} transparent opacity={0.75} />
-            </mesh>
-          ))}
-          {/* Silver stripe */}
-          <mesh position={[0.116, 0.075, 0]}>
-            <boxGeometry args={[0.002, 0.03, 0.28]} />
-            <meshStandardMaterial color={SILVER} roughness={0.5} metalness={0.5} />
-          </mesh>
-          {/* Underframe */}
-          <mesh position={[0, 0.03, 0]}>
-            <boxGeometry args={[0.26, 0.04, 0.28]} />
-            <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
-          </mesh>
-        </group>
-      ))}
     </group>
   )
 }

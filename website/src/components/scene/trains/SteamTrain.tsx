@@ -139,29 +139,6 @@ export default function SteamTrain({ isHovered }: Props) {
           <meshStandardMaterial color="#0d0d0d" roughness={0.95} />
         </mesh>
       </group>
-
-      {/* === FREIGHT CAR 1 === */}
-      <group position={[0, 0, -0.78]}>
-        <mesh position={[0, 0.1, 0]}>
-          <boxGeometry args={[0.21, 0.18, 0.28]} />
-          <meshStandardMaterial color={WOOD} roughness={0.95} metalness={0} />
-        </mesh>
-        {/* Plank lines */}
-        {[-0.05, 0, 0.05].map((z, i) => (
-          <mesh key={i} position={[0.106, 0.1, z]}>
-            <boxGeometry args={[0.002, 0.16, 0.008]} />
-            <meshStandardMaterial color="#5a3a10" />
-          </mesh>
-        ))}
-      </group>
-
-      {/* === FREIGHT CAR 2 === */}
-      <group position={[0, 0, -1.12]}>
-        <mesh position={[0, 0.1, 0]}>
-          <boxGeometry args={[0.21, 0.18, 0.28]} />
-          <meshStandardMaterial color={WOOD} roughness={0.95} metalness={0} />
-        </mesh>
-      </group>
     </group>
   )
 }

@@ -95,32 +95,6 @@ export default function ModernTrain({ isHovered }: Props) {
         </group>
       ))}
 
-      {/* === 5 PASSENGER CARS === */}
-      {[0, 1, 2, 3, 4].map((n) => (
-        <group key={n} position={[0, 0, -(0.5 + n * 0.32)]}>
-          <mesh position={[0, 0.14, 0]}>
-            <boxGeometry args={[0.24, 0.24, 0.28]} />
-            <meshStandardMaterial color={WHITE} roughness={0.5} metalness={0.35} />
-          </mesh>
-          {/* Blue stripe */}
-          <mesh position={[0, 0.075, 0]}>
-            <boxGeometry args={[0.241, 0.04, 0.29]} />
-            <meshStandardMaterial color={BLUE} roughness={0.6} metalness={0.3} />
-          </mesh>
-          {/* Windows */}
-          {[-0.09, -0.01, 0.07].map((z2, j) => (
-            <mesh key={j} position={[0.121, 0.165, z2]}>
-              <boxGeometry args={[0.005, 0.07, 0.07]} />
-              <meshStandardMaterial color={GLASS} roughness={0.05} metalness={0.4} transparent opacity={0.8} />
-            </mesh>
-          ))}
-          {/* Undercarriage */}
-          <mesh position={[0, 0.035, 0]}>
-            <boxGeometry args={[0.27, 0.05, 0.3]} />
-            <meshStandardMaterial color={DARK} roughness={0.85} />
-          </mesh>
-        </group>
-      ))}
     </group>
   )
 }

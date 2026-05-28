@@ -100,28 +100,6 @@ export default function DieselTrain({ isHovered }: Props) {
         </group>
       ))}
 
-      {/* === FREIGHT / TANKER CARS (3) === */}
-      {[0, 1, 2].map((n) => (
-        <group key={n} position={[0, 0, -(0.44 + n * 0.34)]}>
-          {/* Car body */}
-          <mesh position={[0, 0.12, 0]}>
-            <boxGeometry args={[0.22, 0.2, 0.28]} />
-            <meshStandardMaterial color={n % 2 === 0 ? '#3a3a28' : '#2a2a1e'} roughness={0.85} metalness={0.15} />
-          </mesh>
-          {/* Underframe */}
-          <mesh position={[0, 0.04, 0]}>
-            <boxGeometry args={[0.26, 0.05, 0.3]} />
-            <meshStandardMaterial color={METAL} roughness={0.8} metalness={0.3} />
-          </mesh>
-          {/* Rivets suggestion */}
-          {[-0.08, 0, 0.08].map((z2, j) => (
-            <mesh key={j} position={[0.111, 0.12, z2]}>
-              <sphereGeometry args={[0.008, 5, 4]} />
-              <meshStandardMaterial color={METAL} roughness={0.5} metalness={0.6} />
-            </mesh>
-          ))}
-        </group>
-      ))}
     </group>
   )
 }

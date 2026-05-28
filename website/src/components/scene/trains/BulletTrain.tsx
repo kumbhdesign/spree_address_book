@@ -97,38 +97,6 @@ export default function BulletTrain({ isHovered }: Props) {
         </group>
       ))}
 
-      {/* === 8 PASSENGER CARS === */}
-      {[0, 1, 2, 3, 4, 5, 6, 7].map((n) => (
-        <group key={n} position={[0, 0, -(0.47 + n * 0.31)]}>
-          <mesh position={[0, 0.13, 0]}>
-            <boxGeometry args={[0.22, 0.22, 0.26]} />
-            <meshStandardMaterial color={SHELL} roughness={0.35} metalness={0.5} />
-          </mesh>
-          {/* Blue stripe */}
-          <mesh position={[0, 0.055, 0]}>
-            <boxGeometry args={[0.221, 0.025, 0.265]} />
-            <meshStandardMaterial color={BLUE_STRIPE} roughness={0.55} metalness={0.4} />
-          </mesh>
-          {/* Windows (4 per side) */}
-          {[-0.09, -0.03, 0.03, 0.09].map((z2, j) => (
-            <mesh key={j} position={[0.111, 0.155, z2]}>
-              <boxGeometry args={[0.005, 0.065, 0.055]} />
-              <meshStandardMaterial color={GLASS} roughness={0.05} metalness={0.4} transparent opacity={0.82} />
-            </mesh>
-          ))}
-          {/* Undercarriage */}
-          <mesh position={[0, 0.038, 0]}>
-            <boxGeometry args={[0.24, 0.04, 0.27]} />
-            <meshStandardMaterial color={UNDERBODY} roughness={0.5} metalness={0.4} />
-          </mesh>
-        </group>
-      ))}
-
-      {/* Tail cap */}
-      <mesh position={[0, 0.13, -(0.47 + 7 * 0.31 + 0.15)]}>
-        <boxGeometry args={[0.19, 0.19, 0.1]} />
-        <meshStandardMaterial color={SHELL} roughness={0.35} metalness={0.5} />
-      </mesh>
     </group>
   )
 }
