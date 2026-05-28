@@ -1,66 +1,61 @@
 'use client'
 
-import { useMemo, useEffect, useRef } from 'react'
+import { useMemo } from 'react'
 import * as THREE from 'three'
 
-// Simple low-poly conifer trees scattered between tracks
 interface Props {
   radii: number[]
 }
 
-function randomSeed(n: number) {
-  // Simple LCG for deterministic pseudo-random values
+function rng(n: number) {
   let s = n * 1664525 + 1013904223
   return ((s & 0x7fffffff) / 0x7fffffff)
 }
 
 interface TreeData {
   x: number
-  y: number
   z: number
   scale: number
-  shade: number // 0-1
+  shade: number
 }
 
 export default function Trees({ radii }: Props) {
   const trees = useMemo<TreeData[]>(() => {
     const out: TreeData[] = []
     let idx = 0
-    // Place trees between each pair of tracks and around outer edge
+
+    // Much denser bands matching reference image
     const bands = [
-      { inner: radii[0] + 0.2, outer: radii[1] - 0.2 },
-      { inner: radii[1] + 0.2, outer: radii[2] - 0.2 },
-      { inner: radii[2] + 0.2, outer: radii[3] - 0.2 },
-      { inner: radii[3] + 0.2, outer: radii[4] - 0.2 },
+      { inner: radii[0] + 0.18, outer: radii[1] - 0.18, count: 30 },  // T1-T2
+      { inner: radii[1] + 0.18, outer: 3.85, count: 20 },              // T2 to water edge
+      { inner: 5.0, outer: radii[2] - 0.15, count: 22 },               // water to T3
+      { inner: radii[2] + 0.15, outer: radii[3] - 0.15, count: 38 },   // T3-T4 (dense forest)
+      { inner: radii[3] + 0.15, outer: 6.45, count: 30 },              // T4 to water
+      { inner: 7.5, outer: radii[4] - 0.15, count: 20 },               // water to T5
     ]
 
-    bands.forEach((band, bi) => {
-      const count = 18 + bi * 4
+    bands.forEach(({ inner, outer, count }) => {
       for (let i = 0; i < count; i++) {
-        const r = randomSeed(idx++) * (band.outer - band.inner) + band.inner
-        const angle = randomSeed(idx++) * Math.PI // semicircle
-        const x = r * Math.cos(angle)
-        const z = -r * Math.sin(angle)
+        const r = rng(idx++) * (outer - inner) + inner
+        const angle = rng(idx++) * Math.PI
         out.push({
-          x,
-          y: 0,
-          z,
-          scale: 0.15 + randomSeed(idx++) * 0.2,
-          shade: randomSeed(idx++),
+          x: r * Math.cos(angle),
+          z: -r * Math.sin(angle),
+          scale: 0.14 + rng(idx++) * 0.22,
+          shade: rng(idx++),
         })
       }
     })
 
-    // Inner circle trees
-    for (let i = 0; i < 10; i++) {
-      const r = randomSeed(idx++) * (radii[0] - 0.4) + 0.1
-      const angle = randomSeed(idx++) * Math.PI
+    // Inner circle (center of diorama)
+    for (let i = 0; i < 14; i++) {
+      const r = rng(idx++) * (radii[0] - 0.3) + 0.1
+      const angle = rng(idx++) * Math.PI
       out.push({
         x: r * Math.cos(angle),
-        y: 0,
         z: -r * Math.sin(angle),
-        scale: 0.1 + randomSeed(idx++) * 0.12,
-        shade: randomSeed(idx++),
+        scale: 0.08 + rng(idx++) * 0.1,
+        shade: rng(idx++),
       })
     }
 
@@ -76,30 +71,27 @@ export default function Trees({ radii }: Props) {
   )
 }
 
-function Tree({ x, z, scale, shade }: { x: number; z: number; scale: number; shade: number }) {
+function Tree({ x, z, scale, shade }: TreeData) {
   const green = useMemo(
-    () => new THREE.Color().setHSL(0.32 + shade * 0.05, 0.55 + shade * 0.2, 0.22 + shade * 0.12),
+    () => new THREE.Color().setHSL(0.28 + shade * 0.08, 0.6 + shade * 0.2, 0.18 + shade * 0.14),
     [shade]
   )
-  const trunkColor = '#5a3a1a'
-  const h = scale * 1.0
-  const r = scale * 0.35
+  const h = scale
+  const r = scale * 0.38
 
   return (
     <group position={[x, 0, z]}>
-      {/* Trunk */}
-      <mesh position={[0, h * 0.22, 0]}>
-        <cylinderGeometry args={[r * 0.15, r * 0.2, h * 0.45, 5]} />
-        <meshStandardMaterial color={trunkColor} roughness={1} />
+      <mesh position={[0, h * 0.2, 0]}>
+        <cylinderGeometry args={[r * 0.12, r * 0.18, h * 0.4, 5]} />
+        <meshStandardMaterial color="#4a2e10" roughness={1} />
       </mesh>
-      {/* Canopy — two stacked cones */}
-      <mesh position={[0, h * 0.62, 0]}>
-        <coneGeometry args={[r, h * 0.65, 7]} />
-        <meshStandardMaterial color={green} roughness={0.9} flatShading />
+      <mesh position={[0, h * 0.68, 0]}>
+        <coneGeometry args={[r, h * 0.72, 7]} />
+        <meshStandardMaterial color={green} roughness={0.85} flatShading />
       </mesh>
-      <mesh position={[0, h * 0.44, 0]}>
-        <coneGeometry args={[r * 1.25, h * 0.4, 7]} />
-        <meshStandardMaterial color={green} roughness={0.9} flatShading />
+      <mesh position={[0, h * 0.46, 0]}>
+        <coneGeometry args={[r * 1.3, h * 0.42, 7]} />
+        <meshStandardMaterial color={green} roughness={0.85} flatShading />
       </mesh>
     </group>
   )

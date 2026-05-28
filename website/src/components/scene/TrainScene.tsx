@@ -16,7 +16,7 @@ export const TRACK_RADII = [2.5, 3.8, 5.1, 6.4, 7.7]
 
 // Base speeds (full lap per second at scale 1.0)
 // Track 1 slowest → Track 5 fastest
-export const BASE_SPEEDS = [0.009, 0.016, 0.028, 0.048, 0.082]
+export const BASE_SPEEDS = [0.0117, 0.0208, 0.0364, 0.0624, 0.1066]
 
 interface Props {
   hoveredTrain: HoveredTrain
@@ -28,26 +28,26 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
 
   // Aim camera at scene centre
   useEffect(() => {
-    camera.lookAt(new THREE.Vector3(0, 1, -5))
+    camera.lookAt(new THREE.Vector3(0, 0, -5))
   }, [camera])
 
   return (
     <>
-      {/* White fog blends the horizon seamlessly */}
-      <fog attach="fog" args={['#ffffff', 25, 55]} />
+      {/* White scene background — eliminates black edges */}
+      <color attach="background" args={['#ffffff']} />
+      {/* White fog — tight to keep edges clean */}
+      <fog attach="fog" args={['#ffffff', 22, 44]} />
 
-      {/* Warm key light from upper-left */}
-      <ambientLight intensity={0.65} color="#ffffff" />
-      <directionalLight
-        position={[10, 28, 12]}
-        intensity={1.4}
-        color="#fff6e8"
-        castShadow={false}
-      />
-      {/* Cool fill light from opposite side */}
-      <directionalLight position={[-8, 12, -4]} intensity={0.35} color="#d8eeff" />
-      {/* Gentle bounce from below */}
-      <hemisphereLight args={['#e8f0ff', '#c8d0a0', 0.3]} />
+      {/* Bright ambient for clean diorama look */}
+      <ambientLight intensity={0.9} color="#ffffff" />
+      {/* Main top-down key light */}
+      <directionalLight position={[5, 30, 8]} intensity={2.0} color="#fff8f2" castShadow={false} />
+      {/* Front fill — lifts shadows toward viewer */}
+      <directionalLight position={[0, 10, 20]} intensity={0.7} color="#f0f4ff" />
+      {/* Side fill */}
+      <directionalLight position={[-12, 16, -4]} intensity={0.4} color="#e8f0ff" />
+      {/* Sky / ground bounce */}
+      <hemisphereLight args={['#f0f4ff', '#d8e0c8', 0.5]} />
 
       <Ground />
       <Trees radii={TRACK_RADII} />
