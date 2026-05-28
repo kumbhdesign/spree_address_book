@@ -26,60 +26,94 @@ export default function Buildings({ outerRadius }: Props) {
     const buildings: BuildingSpec[] = []
     let idx = 0
 
-    // Right cluster — modern city / Shinkansen exit zone (angles 0.02–0.38)
-    const rightAngles = [0.03, 0.07, 0.11, 0.15, 0.19, 0.23, 0.27, 0.31, 0.35, 0.38]
+    // === RIGHT SECTOR: Modern glass towers (angles 0.03–0.40) ===
+    const rightAngles = [0.03, 0.06, 0.10, 0.14, 0.18, 0.22, 0.26, 0.30, 0.34, 0.37, 0.40]
     rightAngles.forEach((a, ai) => {
-      // Front row
-      const r1 = outerRadius + 0.5 + rng(idx++) * 0.6
       const angle = a * Math.PI
+      const r1 = outerRadius + 0.45 + rng(idx++) * 0.55
       buildings.push({
         x: r1 * Math.cos(angle),
         z: -r1 * Math.sin(angle),
-        w: 0.35 + rng(idx++) * 0.45,
-        d: 0.35 + rng(idx++) * 0.45,
-        h: 1.2 + rng(idx++) * 3.8,
+        w: 0.32 + rng(idx++) * 0.42,
+        d: 0.32 + rng(idx++) * 0.42,
+        h: 1.5 + rng(idx++) * 4.5,
         color: getModernColor(rng(idx++)),
         windows: true,
       })
-      // Back row (deeper)
-      const r2 = outerRadius + 1.2 + rng(idx++) * 0.8
+      const r2 = outerRadius + 1.1 + rng(idx++) * 0.9
       buildings.push({
-        x: r2 * Math.cos(angle + 0.02),
-        z: -r2 * Math.sin(angle + 0.02),
-        w: 0.3 + rng(idx++) * 0.5,
-        d: 0.3 + rng(idx++) * 0.5,
-        h: 0.8 + rng(idx++) * 2.5,
+        x: r2 * Math.cos(angle + 0.018),
+        z: -r2 * Math.sin(angle + 0.018),
+        w: 0.28 + rng(idx++) * 0.46,
+        d: 0.28 + rng(idx++) * 0.46,
+        h: 1.0 + rng(idx++) * 3.8,
         color: getModernColor(rng(idx++)),
-        windows: ai > 3,
+        windows: ai > 2,
       })
+      if (ai % 3 === 0) {
+        const r3 = outerRadius + 1.8 + rng(idx++) * 0.7
+        buildings.push({
+          x: r3 * Math.cos(angle + 0.03),
+          z: -r3 * Math.sin(angle + 0.03),
+          w: 0.38 + rng(idx++) * 0.5,
+          d: 0.38 + rng(idx++) * 0.5,
+          h: 2.0 + rng(idx++) * 5.0,
+          color: getModernColor(rng(idx++)),
+          windows: true,
+        })
+      }
     })
 
-    // Top-left city arc (angles 0.40–0.94) — mixed new city
-    const topAngles = [0.41, 0.46, 0.50, 0.55, 0.59, 0.64, 0.68, 0.73, 0.77, 0.82, 0.86, 0.90, 0.93]
+    // === TOP CENTER SECTOR: Mixed modern/mid-rise (angles 0.41–0.75) ===
+    const topAngles = [0.42, 0.46, 0.50, 0.54, 0.58, 0.62, 0.66, 0.70, 0.74]
     topAngles.forEach((a, ai) => {
-      const r1 = outerRadius + 0.45 + rng(idx++) * 0.7
       const angle = a * Math.PI
+      const r1 = outerRadius + 0.42 + rng(idx++) * 0.65
       buildings.push({
         x: r1 * Math.cos(angle),
         z: -r1 * Math.sin(angle),
-        w: 0.3 + rng(idx++) * 0.5,
-        d: 0.3 + rng(idx++) * 0.5,
-        h: 0.5 + rng(idx++) * 2.2,
+        w: 0.3 + rng(idx++) * 0.46,
+        d: 0.3 + rng(idx++) * 0.46,
+        h: 0.6 + rng(idx++) * 2.8,
+        color: ai < 4 ? getModernColor(rng(idx++)) : getMidColor(rng(idx++)),
+        windows: ai < 5,
+      })
+      const r2 = outerRadius + 1.0 + rng(idx++) * 0.7
+      buildings.push({
+        x: r2 * Math.cos(angle + 0.016),
+        z: -r2 * Math.sin(angle + 0.016),
+        w: 0.26 + rng(idx++) * 0.38,
+        d: 0.26 + rng(idx++) * 0.38,
+        h: 0.4 + rng(idx++) * 2.2,
         color: getMidColor(rng(idx++)),
+        windows: ai < 3,
+      })
+    })
+
+    // === LEFT SECTOR: Older residential/commercial (angles 0.76–0.97) ===
+    const leftAngles = [0.77, 0.80, 0.83, 0.86, 0.89, 0.92, 0.95]
+    leftAngles.forEach((a) => {
+      const angle = a * Math.PI
+      const r1 = outerRadius + 0.40 + rng(idx++) * 0.60
+      buildings.push({
+        x: r1 * Math.cos(angle),
+        z: -r1 * Math.sin(angle),
+        w: 0.32 + rng(idx++) * 0.44,
+        d: 0.32 + rng(idx++) * 0.44,
+        h: 0.5 + rng(idx++) * 1.8,
+        color: getOldColor(rng(idx++)),
         windows: false,
       })
-      if (ai % 2 === 0) {
-        const r2 = outerRadius + 1.1 + rng(idx++) * 0.6
-        buildings.push({
-          x: r2 * Math.cos(angle + 0.015),
-          z: -r2 * Math.sin(angle + 0.015),
-          w: 0.25 + rng(idx++) * 0.4,
-          d: 0.25 + rng(idx++) * 0.4,
-          h: 0.4 + rng(idx++) * 1.6,
-          color: getMidColor(rng(idx++)),
-          windows: false,
-        })
-      }
+      const r2 = outerRadius + 1.0 + rng(idx++) * 0.65
+      buildings.push({
+        x: r2 * Math.cos(angle + 0.02),
+        z: -r2 * Math.sin(angle + 0.02),
+        w: 0.28 + rng(idx++) * 0.36,
+        d: 0.28 + rng(idx++) * 0.36,
+        h: 0.4 + rng(idx++) * 1.4,
+        color: getOldColor(rng(idx++)),
+        windows: false,
+      })
     })
 
     return buildings
@@ -101,6 +135,11 @@ function getModernColor(t: number): string {
 
 function getMidColor(t: number): string {
   const palette = ['#c8c4b8', '#d0ccc0', '#b8c0c0', '#c4c8c0', '#d0c8b8', '#c0bcb0', '#bcc0b8']
+  return palette[Math.floor(t * palette.length)]
+}
+
+function getOldColor(t: number): string {
+  const palette = ['#b8a898', '#c4b0a0', '#a89888', '#bcac9c', '#c8b8a8', '#b0a090', '#c0a898']
   return palette[Math.floor(t * palette.length)]
 }
 

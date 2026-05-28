@@ -28,7 +28,7 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
 
   // Aim camera at scene centre
   useEffect(() => {
-    camera.lookAt(new THREE.Vector3(0, 0, -5))
+    camera.lookAt(new THREE.Vector3(0, 0, -4))
   }, [camera])
 
   return (
@@ -36,7 +36,7 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
       {/* White scene background — eliminates black edges */}
       <color attach="background" args={['#ffffff']} />
       {/* White fog — tight to keep edges clean */}
-      <fog attach="fog" args={['#ffffff', 22, 44]} />
+      <fog attach="fog" args={['#ffffff', 24, 46]} />
 
       {/* Bright ambient for clean diorama look */}
       <ambientLight intensity={0.9} color="#ffffff" />
