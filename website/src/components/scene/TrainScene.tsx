@@ -3,8 +3,6 @@
 import { useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
-import { SoftShadows } from '@react-three/drei'
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 import { siteConfig } from '@/config/siteConfig'
 import type { HoveredTrain } from '../HeroSection'
 import TrackWithTrain from './TrackWithTrain'
@@ -33,11 +31,9 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
       <color attach="background" args={['#ffffff']} />
       <fog attach="fog" args={['#ffffff', 26, 50]} />
 
-      {/* Soft PCF shadow kernel */}
-      <SoftShadows size={20} samples={12} focus={0.1} />
-
-      {/* Ambient — kept low so shadows read clearly */}
+      {/* Ambient — kept low so cast shadows read clearly */}
       <ambientLight intensity={0.55} color="#f8f4ee" />
+
       {/* Key light — casts shadows across the full diorama */}
       <directionalLight
         position={[6, 28, 10]}
@@ -78,12 +74,6 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
 
       <Buildings outerRadius={TRACK_RADII[4]} />
       <Tunnel radius={TRACK_RADII[4]} />
-
-      {/* Post-processing — Bloom + Vignette only (SSAO removed, unstable in postprocessing v7) */}
-      <EffectComposer>
-        <Bloom intensity={0.3} luminanceThreshold={0.72} luminanceSmoothing={0.9} />
-        <Vignette eskil={false} offset={0.14} darkness={0.55} />
-      </EffectComposer>
     </>
   )
 }
