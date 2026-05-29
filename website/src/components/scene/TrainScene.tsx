@@ -4,8 +4,7 @@ import { useEffect } from 'react'
 import { useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { SoftShadows } from '@react-three/drei'
-import { EffectComposer, Bloom, Vignette, SSAO } from '@react-three/postprocessing'
-import { BlendFunction } from 'postprocessing'
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
 import { siteConfig } from '@/config/siteConfig'
 import type { HoveredTrain } from '../HeroSection'
 import TrackWithTrain from './TrackWithTrain'
@@ -34,12 +33,12 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
       <color attach="background" args={['#ffffff']} />
       <fog attach="fog" args={['#ffffff', 26, 50]} />
 
-      {/* Soft shadow rendering — PCF kernel spread */}
+      {/* Soft PCF shadow kernel */}
       <SoftShadows size={20} samples={12} focus={0.1} />
 
-      {/* Reduced ambient so shadows are visible */}
+      {/* Ambient — kept low so shadows read clearly */}
       <ambientLight intensity={0.55} color="#f8f4ee" />
-      {/* Main key light — casts shadows across the diorama */}
+      {/* Key light — casts shadows across the full diorama */}
       <directionalLight
         position={[6, 28, 10]}
         intensity={2.2}
@@ -55,11 +54,11 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
         shadow-camera-bottom={-14}
         shadow-bias={-0.0004}
       />
-      {/* Front fill — soft from viewer direction */}
+      {/* Front fill */}
       <directionalLight position={[0, 8, 22]} intensity={0.55} color="#f0f4ff" />
       {/* Left rim */}
       <directionalLight position={[-14, 14, -2]} intensity={0.32} color="#e8eeff" />
-      {/* Warm sky / cool ground bounce */}
+      {/* Sky/ground bounce */}
       <hemisphereLight args={['#e8f0f8', '#c8d8b0', 0.45]} />
 
       <Ground />
@@ -80,29 +79,10 @@ export default function TrainScene({ hoveredTrain, setHoveredTrain }: Props) {
       <Buildings outerRadius={TRACK_RADII[4]} />
       <Tunnel radius={TRACK_RADII[4]} />
 
-      {/* Post-processing stack */}
-      <EffectComposer multisampling={0}>
-        <SSAO
-          blendFunction={BlendFunction.MULTIPLY}
-          samples={24}
-          radius={0.06}
-          intensity={15}
-          luminanceInfluence={0.5}
-          worldDistanceThreshold={0.6}
-          worldDistanceFalloff={0.2}
-          worldProximityThreshold={0.05}
-          worldProximityFalloff={0.05}
-        />
-        <Bloom
-          intensity={0.25}
-          luminanceThreshold={0.72}
-          luminanceSmoothing={0.9}
-        />
-        <Vignette
-          eskil={false}
-          offset={0.12}
-          darkness={0.55}
-        />
+      {/* Post-processing — Bloom + Vignette only (SSAO removed, unstable in postprocessing v7) */}
+      <EffectComposer>
+        <Bloom intensity={0.3} luminanceThreshold={0.72} luminanceSmoothing={0.9} />
+        <Vignette eskil={false} offset={0.14} darkness={0.55} />
       </EffectComposer>
     </>
   )
