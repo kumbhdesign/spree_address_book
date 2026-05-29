@@ -147,27 +147,27 @@ function Building({ spec }: { spec: BuildingSpec }) {
   return (
     <group position={[spec.x, 0, spec.z]}>
       {/* Main tower */}
-      <mesh position={[0, spec.h / 2, 0]}>
+      <mesh castShadow receiveShadow position={[0, spec.h / 2, 0]}>
         <boxGeometry args={[spec.w, spec.h, spec.d]} />
-        <meshStandardMaterial color={spec.color} roughness={0.45} metalness={0.45} />
+        <meshStandardMaterial color={spec.color} roughness={0.42} metalness={0.42} />
       </mesh>
       {/* Reflective glass face */}
       {spec.windows && (
-        <mesh position={[0, spec.h * 0.5, spec.d / 2 + 0.001]}>
+        <mesh castShadow position={[0, spec.h * 0.5, spec.d / 2 + 0.001]}>
           <boxGeometry args={[spec.w * 0.88, spec.h * 0.82, 0.01]} />
-          <meshStandardMaterial color="#d8eeff" roughness={0.05} metalness={0.8} transparent opacity={0.55} />
+          <meshStandardMaterial color="#cce6ff" roughness={0.04} metalness={0.85} transparent opacity={0.6} />
         </mesh>
       )}
       {/* Roof detail */}
-      <mesh position={[0, spec.h + 0.04, 0]}>
+      <mesh castShadow position={[0, spec.h + 0.04, 0]}>
         <boxGeometry args={[spec.w * 0.55, 0.07, spec.d * 0.55]} />
-        <meshStandardMaterial color="#9aacbe" roughness={0.4} metalness={0.6} />
+        <meshStandardMaterial color="#8a9cae" roughness={0.38} metalness={0.65} />
       </mesh>
       {/* Antenna on tall buildings */}
       {spec.h > 2.5 && (
-        <mesh position={[0, spec.h + 0.25, 0]}>
+        <mesh castShadow position={[0, spec.h + 0.25, 0]}>
           <cylinderGeometry args={[0.01, 0.01, 0.4, 4]} />
-          <meshStandardMaterial color="#808898" roughness={0.4} metalness={0.7} />
+          <meshStandardMaterial color="#707880" roughness={0.38} metalness={0.75} />
         </mesh>
       )}
     </group>

@@ -87,14 +87,13 @@ function Tree({ data }: { data: TreeData }) {
   const r = scale * 0.48
 
   if (type === 2) {
-    // Low bush / shrub
     return (
       <group position={[x, 0, z]}>
-        <mesh position={[0, scale * 0.18, 0]}>
+        <mesh castShadow position={[0, scale * 0.18, 0]}>
           <sphereGeometry args={[r * 0.9, 6, 5]} />
           <meshStandardMaterial color={canopyA} roughness={0.9} flatShading />
         </mesh>
-        <mesh position={[scale * 0.08, scale * 0.14, scale * 0.06]}>
+        <mesh castShadow position={[scale * 0.08, scale * 0.14, scale * 0.06]}>
           <sphereGeometry args={[r * 0.65, 6, 4]} />
           <meshStandardMaterial color={canopyB} roughness={0.9} flatShading />
         </mesh>
@@ -103,22 +102,21 @@ function Tree({ data }: { data: TreeData }) {
   }
 
   if (type === 1) {
-    // Taller, narrower tree
     return (
       <group position={[x, 0, z]}>
         <mesh position={[0, scale * 0.16, 0]}>
           <cylinderGeometry args={[r * 0.07, r * 0.11, scale * 0.32, 5]} />
           <meshStandardMaterial color="#4a2e10" roughness={1} />
         </mesh>
-        <mesh position={[0, scale * 0.58, 0]}>
+        <mesh castShadow position={[0, scale * 0.58, 0]}>
           <sphereGeometry args={[r * 0.82, 7, 6]} />
           <meshStandardMaterial color={canopyA} roughness={0.85} flatShading />
         </mesh>
-        <mesh position={[0, scale * 0.82, 0]}>
+        <mesh castShadow position={[0, scale * 0.82, 0]}>
           <sphereGeometry args={[r * 0.58, 6, 5]} />
           <meshStandardMaterial color={canopyB} roughness={0.85} flatShading />
         </mesh>
-        <mesh position={[0, scale * 1.0, 0]}>
+        <mesh castShadow position={[0, scale * 1.0, 0]}>
           <sphereGeometry args={[r * 0.32, 5, 4]} />
           <meshStandardMaterial color={canopyA} roughness={0.85} flatShading />
         </mesh>
@@ -126,18 +124,18 @@ function Tree({ data }: { data: TreeData }) {
     )
   }
 
-  // Default: round canopy tree — matches the reference image's deciduous style
+  // Default: round canopy tree
   return (
     <group position={[x, 0, z]}>
       <mesh position={[0, scale * 0.15, 0]}>
         <cylinderGeometry args={[r * 0.07, r * 0.12, scale * 0.3, 5]} />
         <meshStandardMaterial color="#4a2e10" roughness={1} />
       </mesh>
-      <mesh position={[0, scale * 0.52, 0]}>
+      <mesh castShadow position={[0, scale * 0.52, 0]}>
         <sphereGeometry args={[r, 8, 7]} />
         <meshStandardMaterial color={canopyA} roughness={0.85} flatShading />
       </mesh>
-      <mesh position={[scale * 0.04, scale * 0.74, scale * 0.02]}>
+      <mesh castShadow position={[scale * 0.04, scale * 0.74, scale * 0.02]}>
         <sphereGeometry args={[r * 0.76, 7, 6]} />
         <meshStandardMaterial color={canopyB} roughness={0.85} flatShading />
       </mesh>
